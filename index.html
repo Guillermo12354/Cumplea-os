@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mi Universo Eres Tú ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #020005;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        /* Fondo profundo y romántico */
+        .stars-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle at center, #2e082b 0%, #020005 100%);
+            z-index: -2;
+        }
+
+        /* === CORAZONES FLOTANTES DE FONDO === */
+        .floating-heart {
+            position: absolute;
+            color: rgba(255, 51, 102, 0.6);
+            font-size: var(--size);
+            left: var(--left);
+            bottom: -50px;
+            animation: floatUp var(--duration) linear infinite;
+            z-index: -1;
+            pointer-events: none;
+            filter: drop-shadow(0 0 5px rgba(255, 51, 102, 0.4));
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: var(--opacity); }
+            90% { opacity: var(--opacity); }
+            100% {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* === FRASES DE AMOR POR TODOS LADOS === */
+        .frase-amor {
+            position: absolute;
+            font-family: 'Caveat', cursive;
+            color: #ff9ebb;
+            font-size: 1.6rem;
+            text-shadow: 0 0 8px rgba(255, 51, 102, 0.8);
+            opacity: 0.85;
+            pointer-events: none;
+            z-index: 1;
+            transform: rotate(var(--rot));
+            white-space: nowrap;
+        }
+
+        /* Posicionamiento variado para "atascarlo" */
+        .frase-amor:nth-child(1) { top: 15%; left: 8%; --rot: -8deg; color: #ff6b8b; }
+        .frase-amor:nth-child(2) { top: 12%; right: 5%; --rot: 6deg; color: #ffb3c6; }
+        .frase-amor:nth-child(3) { bottom: 18%; left: 6%; --rot: 5deg; }
+        .frase-amor:nth-child(4) { bottom: 12%; right: 10%; --rot: -6deg; color: #ff6b8b; }
+        .frase-amor:nth-child(5) { top: 40%; left: 4%; --rot: -12deg; font-size: 1.3rem; }
+        .frase-amor:nth-child(6) { top: 35%; right: 4%; --rot: 15deg; font-size: 1.3rem; }
+        .frase-amor:nth-child(7) { bottom: 35%; left: 5%; --rot: 10deg; font-size: 1.2rem; }
+        .frase-amor:nth-child(8) { bottom: 42%; right: 6%; --rot: -8deg; font-size: 1.2rem; }
+
+        /* Contenedor principal 3D */
+        #perspective-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            perspective: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* El contenedor que rota con el dedo */
+        #drag-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform-style: preserve-3d;
+            transform: rotateX(-10deg);
+        }
+
+        /* El anillo más amplio para las fotos */
+        #spin-container {
+            position: relative;
+            width: 110px; /* Reducido para evitar encimado */
+            height: 160px; /* Reducido para evitar encimado */
+            transform-style: preserve-3d;
+        }
+
+        /* === CORAZÓN CENTRAL 3D + ÓRBITAS === */
+        #core-heart-3d {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 90px;
+            height: 90px;
+            transform-style: preserve-3d;
+            animation: pulseCore 1.5s infinite ease-in-out;
+        }
+
+        .heart-plane {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: #ff3366;
+            box-shadow: 0 0 50px 25px rgba(255, 51, 102, 0.7);
+            clip-path: path('M 50 100 C 50 100 0 60 0 30 C 0 10 25 0 50 25 C 75 0 100 10 100 30 C 100 60 50 100 50 100 Z');
+        }
+
+        .heart-plane:nth-child(1) { transform: translate(-50%, -50%) rotateY(0deg); }
+        .heart-plane:nth-child(2) { transform: translate(-50%, -50%) rotateY(90deg); filter: brightness(1.25); }
+
+        /* Órbita de mini corazones gravitando */
+        .heart-aura {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 130px; height: 130px;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 75, 114, 0.45) 0%, transparent 70%);
+            animation: auraSpin 3s infinite linear;
+        }
+
+        .orbital-debris {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: debrisOrbit 12s infinite linear;
+        }
+
+        .orbital-heart {
+            position: absolute;
+            color: #ff2a6d;
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px #ff2a6d;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%) rotateY(var(--rotY)) translateZ(75px);
+        }
+
+        @keyframes auraSpin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes debrisOrbit {
+            0% { transform: rotateY(0deg) rotateX(10deg); }
+            100% { transform: rotateY(360deg) rotateX(10deg); }
+        }
+
+        @keyframes pulseCore {
+            0% { transform: scale(0.95); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(0.95); }
+        }
+
+        /* Las tarjetas de recuerdos */
+        .media-item {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 25px rgba(255, 75, 114, 0.4), inset 0 0 15px rgba(255, 75, 114, 0.6);
+            border: 2px solid rgba(255, 117, 140, 0.7);
+            cursor: pointer;
+            -webkit-box-reflect: below 15px linear-gradient(transparent, transparent, rgba(0,0,0,0.35));
+        }
+
+        .media-item img, .media-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        .video-indicator {
+            position: absolute;
+            top: 8px; right: 8px;
+            background: rgba(255, 75, 114, 0.9);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 0.6rem;
+            font-weight: bold;
+        }
+
+        /* Corazón decorativo flotando sobre cada foto */
+        .media-card-heart {
+            position: absolute;
+            bottom: 5px; right: 5px;
+            color: #ff3366;
+            font-size: 1.2rem;
+            filter: drop-shadow(0 0 3px rgba(255,51,102,0.8));
+            animation: heartbeatMini 1s infinite alternate;
+        }
+
+        @keyframes heartbeatMini {
+            to { transform: scale(1.2); }
+        }
+
+        /* Título Flotante */
+        .title-overlay {
+            position: absolute;
+            top: 4%;
+            width: 100%;
+            text-align: center;
+            z-index: 100;
+            pointer-events: none;
+            text-shadow: 0 0 15px rgba(255, 75, 114, 0.9);
+        }
+
+        .title-overlay h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.8rem;
+            color: #fff;
+            margin-bottom: 2px;
+            animation: textGlow 2s infinite alternate;
+        }
+
+        .title-overlay p {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: #ffb8c6;
+            background: rgba(0,0,0,0.45);
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,75,114,0.3);
+        }
+
+        @keyframes textGlow {
+            from { text-shadow: 0 0 10px #ff3366, 0 0 20px #ff3366; }
+            to { text-shadow: 0 0 20px #ff3366, 0 0 30px #ff5e84; }
+        }
+
+        /* Base brillante (suelo) */
+        #ground {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            transform: translate(-50%, -50%) rotateX(90deg);
+            background: radial-gradient(circle, rgba(255, 75, 114, 0.35) 0%, transparent 60%);
+        }
+
+        /* Modal / Lightbox */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal.active { opacity: 1; pointer-events: auto; }
+
+        .modal-content {
+            width: 90%; max-width: 400px;
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal.active .modal-content { transform: scale(1); }
+
+        .modal-media {
+            width: 100%; max-height: 50vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(255,75,114,0.7);
+            margin-bottom: 20px;
+            border: 2px solid #ff4b72;
+        }
+
+        .modal-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255,75,114,0.8);
+        }
+
+        .close-btn {
+            position: absolute; top: 20px; right: 20px;
+            background: #ff4b72; color: white; border: none;
+            width: 45px; height: 45px; border-radius: 50%;
+            font-size: 1.5rem; cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 75, 114, 0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars-bg" id="background"></div>
+
+    <!-- Frases cariñosas dispersas para atiborrarlo de amor -->
+    <div class="frase-amor">¡Te amo con todo mi ser! ❤️</div>
+    <div class="frase-amor">Tú y yo por siempre ♾️</div>
+    <div class="frase-amor">Eres mi casualidad más bonita ✨</div>
+    <div class="frase-amor">Eres mi galaxia entera 🌌</div>
+    <div class="frase-amor">Eres mi todo 💕</div>
+    <div class="frase-amor">Mi estrella favorita ⭐️</div>
+    <div class="frase-amor">Siempre tú 💞</div>
+    <div class="frase-amor">Amor de mi vida 😍</div>
+
+    <div class="title-overlay">
+        <h1>Mi Universo</h1>
+        <p>ARRASTRA PARA GIRAR • TOCA UN RECUERDO</p>
+    </div>
+
+    <!-- Escenario 3D interactivo -->
+    <div id="perspective-container">
+        <div id="drag-container">
+            <div id="spin-container">
+                
+                <!-- Figura WOW Central: Corazón 3D Holográfico + Órbita de Mini Corazones -->
+                <div id="core-heart-3d">
+                    <div class="heart-aura"></div>
+                    <div class="heart-plane"></div>
+                    <div class="heart-plane"></div>
+                    
+                    <!-- Órbita de pequeños corazones gravitando -->
+                    <div class="orbital-debris">
+                        <div class="orbital-heart" style="--rotY: 0deg">❤️</div>
+                        <div class="orbital-heart" style="--rotY: 60deg">💖</div>
+                        <div class="orbital-heart" style="--rotY: 120deg">💕</div>
+                        <div class="orbital-heart" style="--rotY: 180deg">❤️</div>
+                        <div class="orbital-heart" style="--rotY: 240deg">💗</div>
+                        <div class="orbital-heart" style="--rotY: 300deg">💖</div>
+                    </div>
+                </div>
+
+                <!-- Los medios se inyectarán aquí por JS -->
+            </div>
+            <!-- Suelo brillante -->
+            <div id="ground"></div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <button class="close-btn" id="closeBtn">&times;</button>
+        <div class="modal-content">
+            <div id="modalMediaContainer"></div>
+            <p class="modal-text" id="modalText"></p>
+        </div>
+    </div>
+
+    <script>
+        // Tus 23 archivos exactos
+        const files = [
+            { file: "IMG_20251226_001913_282.jpg", type: "img", msg: "Desde el primer instante, supe que mi vida había cambiado." },
+            { file: "IMG_20251226_001932_740.jpg", type: "img", msg: "Tus ojos tienen el brillo de las estrellas." },
+            { file: "IMG_20251226_001939_777.jpg", type: "img", msg: "Tu sonrisa es mi latido favorito." },
+            { file: "IMG_20251226_195528_477.jpg", type: "img", msg: "Mi universo entero en una sola persona." },
+            { file: "IMG_20251226_195536_116.jpg", type: "img", msg: "Me enamoro de ti en cada respiración." },
+            { file: "IMG_20251226_195537_314.jpg", type: "img", msg: "Si la magia existe, está en tu mirada." },
+            { file: "IMG_20251226_195646_310.jpg", type: "img", msg: "Haces que cada día sea una obra de arte." },
+            { file: "IMG_20251226_195647_757.jpg", type: "img", msg: "Ni en mis sueños más hermosos imaginé coincidir contigo." },
+            { file: "IMG_20251226_195650_847.jpg", type: "img", msg: "Contigo aprendí que el hogar eres tú." },
+            { file: "IMG_20251227_223208_761.jpg", type: "img", msg: "Eres la dueña absoluta de mi corazón." },
+            { file: "IMG_20251227_223210_136.jpg", type: "img", msg: "Cada momento a tu lado es un tesoro." },
+            { file: "IMG_20251227_234756_829.jpg", type: "img", msg: "Amo todo de ti: tu luz y tu esencia." },
+            { file: "IMG_20251227_234800_136.jpg", type: "img", msg: "Mi destino favorito siempre será a tu lado." },
+            { file: "IMG_20251227_234801_623.jpg", type: "img", msg: "Te elegiría a ti, en esta galaxia y en todas." },
+            { file: "IMG-20260510-WA0087.jpg", type: "img", msg: "No existen palabras suficientes para decirte cuánto te amo." },
+            { file: "IMG-20260604-WA0037.jpg", type: "img", msg: "Eres el milagro más hermoso que el cosmos pudo enviarme." },
+            { file: "IMG-20260607-WA0022.jpg", type: "img", msg: "A tu lado, el tiempo y el espacio se detienen." },
+            { file: "IMG-20260726-WA0002.jpg", type: "img", msg: "Feliz cumpleaños a la reina de mi universo." },
+            // VIDEOS SIMULTÁNEOS
+            { file: "VID_20251226_185507_327.mp4", type: "video", msg: "Tu voz es la melodía de mi alma." },
+            { file: "VID_20251226_185517_637.mp4", type: "video", msg: "Nuestra historia es mi aventura favorita." },
+            { file: "VID_20251226_185559_431.mp4", type: "video", msg: "Contigo la vida fluye en perfecta armonía." },
+            { file: "VID_20251227_213229_656.mp4", type: "video", msg: "Incluso en silencio, nuestros corazones hablan." },
+            { file: "VID_20251227_213258_935.mp4", type: "video", msg: "Por este y por mil cumpleaños más juntos." }
+        ];
+
+        const spinContainer = document.getElementById('spin-container');
+        const dragContainer = document.getElementById('drag-container');
+        const bg = document.getElementById('background');
+        
+        // El radio es 500 para evitar que las fotos se empalmen (corregido)
+        const radius = 500; 
+
+        // Generar elementos
+        files.forEach((item, index) => {
+            const el = document.createElement('div');
+            el.className = 'media-item';
+            
+            // Posición 3D en el anillo
+            const angle = (index * (360 / files.length));
+            el.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+            
+            if (item.type === 'img') {
+                el.innerHTML = `
+                    <img src="${item.file}" alt="Recuerdo">
+                    <div class="media-card-heart">❤️</div>
+                `;
+            } else {
+                el.innerHTML = `
+                    <video src="${item.file}" autoplay loop muted playsinline></video>
+                    <div class="video-indicator">▶ VIDEO</div>
+                    <div class="media-card-heart">💖</div>
+                `;
+            }
+
+            el.addEventListener('click', () => openModal(item));
+            spinContainer.appendChild(el);
+        });
+
+        // Asegurar que los videos del anillo arranquen
+        setTimeout(() => {
+            document.querySelectorAll('video').forEach(v => {
+                v.play().catch(e => console.log("El navegador bloqueó el autoplay"));
+            });
+        }, 500);
+
+        // === GENERADOR DE LLUVIAS DE CORAZONES ===
+        const heartIcons = ['❤️', '💖', '💕', '💗', '💘', '💝'];
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+            
+            heart.style.setProperty('--left', `${Math.random() * 100}vw`);
+            heart.style.setProperty('--size', `${Math.random() * 1.5 + 0.8}rem`);
+            heart.style.setProperty('--duration', `${Math.random() * 6 + 4}s`);
+            heart.style.setProperty('--opacity', `${Math.random() * 0.4 + 0.3}`);
+            
+            bg.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 10000);
+        }
+
+        // Crear corazones constantemente
+        setInterval(createHeart, 250);
+
+        /* === LÓGICA DRAGGABLE (ARRASTRAR 360 GRADOS) === */
+        let tX = -10, tY = 0; 
+        let desX = 0, desY = 0; 
+        let isDragging = false;
+        let sX, sY, nX, nY;
+
+        function dragStart(e) {
+            isDragging = true;
+            sX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            sY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+            dragContainer.style.transition = 'none'; 
+        }
+
+        function dragMove(e) {
+            if (!isDragging) return;
+            nX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            nY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+            
+            desX = nX - sX;
+            desY = nY - sY;
+            
+            tX -= desY * 0.2; 
+            tY += desX * 0.2; 
+            
+            if (tX > 30) tX = 30;
+            if (tX < -30) tX = -30;
+            
+            applyTransform();
+            
+            sX = nX;
+            sY = nY;
+        }
+
+        function dragEnd() {
+            isDragging = false;
+            dragContainer.style.transition = 'transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            tX -= desY * 0.5;
+            tY += desX * 0.5;
+            if (tX > 30) tX = 30;
+            if (tX < -30) tX = -30;
+            applyTransform();
+        }
+
+        function applyTransform() {
+            dragContainer.style.transform = `rotateX(${tX}deg) rotateY(${tY}deg)`;
+        }
+
+        // Rotación automática lenta si no se está tocando
+        setInterval(() => {
+            if(!isDragging) {
+                tY += 0.3;
+                applyTransform();
+            }
+        }, 30);
+
+        // Listeners
+        document.addEventListener('mousedown', dragStart);
+        document.addEventListener('mousemove', dragMove);
+        document.addEventListener('mouseup', dragEnd);
+        
+        document.addEventListener('touchstart', dragStart, {passive: true});
+        document.addEventListener('touchmove', dragMove, {passive: true});
+        document.addEventListener('touchend', dragEnd);
+
+
+        /* === LÓGICA DEL MODAL === */
+        const modal = document.getElementById('modal');
+        const modalMediaContainer = document.getElementById('modalMediaContainer');
+        const modalText = document.getElementById('modalText');
+        const closeBtn = document.getElementById('closeBtn');
+
+        function openModal(item) {
+            modalMediaContainer.innerHTML = '';
+            
+            if (item.type === 'img') {
+                modalMediaContainer.innerHTML = `<img src="${item.file}" class="modal-media">`;
+            } else {
+                modalMediaContainer.innerHTML = `<video src="${item.file}" class="modal-media" controls autoplay playsinline></video>`;
+            }
+            
+            modalText.textContent = item.msg;
+            modal.classList.add('active');
+        }
+
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+            setTimeout(() => { modalMediaContainer.innerHTML = ''; }, 400);
+        });
+    </script>
+</body>
+</html>
